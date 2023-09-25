@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blockly Starter</title>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="custom_blocks.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="row">
+        <div id="blocklyDiv" class="full-width"></div>
+        <xml id="toolbox" style="display: none">
+            <!-- Add your custom blocks here if needed -->
+        </xml>
+    </div>
+    <div class="row button-row">
+        <button onclick="generateCode()">Generate Code</button>
+        <button onclick="runCode()">Run Code</button>
+        <button onclick="saveBlocks()">Save Blocks</button>
+        <button onclick="loadBlocks()">Load Blocks</button>
+        <input type="file" id="loadInput" style="display: none;" onchange="loadBlocksFile(event)">
+    </div>
+    <div class="row">
+        <div id="codeDiv" class="half-width"></div>
+        <div id="outputDiv" class="half-width"></div>
+    </div>
+    <script>
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: document.getElementById('toolbox'),
+            scrollbars: true
+        });
+
+        function generateCode() {
+            // Implement code generation here if needed
+        }
+
+        function runCode() {
+            // Implement code execution here if needed
+        }
+
+        function saveBlocks() {
+            // Implement block saving logic here if needed
+        }
+
+        function loadBlocks() {
+            document.getElementById('loadInput').click();
+        }
+
+        function loadBlocksFile(event) {
+            // Implement block loading logic here if needed
+        }
+    </script>
+</body>
+</html>
