@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Blockly Starter</title>
+    <title>HTTPly</title>
     <script src="https://unpkg.com/blockly/blockly.min.js"></script>
     <script src="custom_blocks.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
@@ -10,12 +10,12 @@
     <div class="row">
         <div id="blocklyDiv" class="full-width"></div>
         <xml id="toolbox" style="display: none">
-            <!-- Add your custom blocks here if needed -->
+            <block type="printTest"></block>
         </xml>
     </div>
     <div class="row button-row">
-        <button onclick="generateCode()">Generate Code</button>
-        <button onclick="runCode()">Run Code</button>
+        <button onclick="generateCode()">Generate JavaScript</button>
+        <button onclick="runCode()">Run JavaScript</button>
         <button onclick="saveBlocks()">Save Blocks</button>
         <button onclick="loadBlocks()">Load Blocks</button>
         <input type="file" id="loadInput" style="display: none;" onchange="loadBlocksFile(event)">
@@ -31,15 +31,28 @@
         });
 
         function generateCode() {
-            // Implement code generation here if needed
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            document.getElementById('codeDiv').innerText = code;
         }
 
         function runCode() {
-            // Implement code execution here if needed
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            try {
+                var output = eval(code);
+                document.getElementById('outputDiv').innerText = output;
+            } catch (e) {
+                document.getElementById('outputDiv').innerText = 'Error: ' + e;
+            }
         }
 
         function saveBlocks() {
-            // Implement block saving logic here if needed
+            var xml = Blockly.Xml.workspaceToDom(workspace);
+            var xmlText = Blockly.Xml.domToPrettyText(xml);
+            var blob = new Blob([xmlText], {type: 'text/xml'});
+            var a = document.createElement('a');
+            a.download = 'blocks.xml';
+            a.href = URL.createObjectURL(blob);
+            a.click();
         }
 
         function loadBlocks() {
@@ -47,8 +60,15 @@
         }
 
         function loadBlocksFile(event) {
-            // Implement block loading logic here if needed
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var xml = Blockly.utils.xml.textToDom(e.target.result);
+                Blockly.Xml.appendDomToWorkspace(xml, workspace);
+            };
+            reader.readAsText(file);
         }
+
     </script>
 </body>
 </html>
